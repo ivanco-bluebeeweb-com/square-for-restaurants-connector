@@ -1,3 +1,9 @@
-# Square for Restaurants Connector - AUTH_AND_CREDENTIALS.md
+# Square for Restaurants Connector — Auth & Credentials Standard
 
-Standard documentation for Square for Restaurants Connector in Imperal Cloud.
+**Compliance:** AUTH_AND_CREDENTIALS_STANDARD.md (B1–B10)
+
+## Схема аутентификации
+- **Метод:** OAuth 2.0 Bearer Token / Personal Access Token
+- **Хранение:** Секреты сохраняются изолированно в хранилище секретов платформы Imperal.
+- **Валидация:** При сохранении ключа выполняется тестовый запрос `GET /v2/locations`.
+- **Отключение:** Удаление локальных ключей без воздействия на аккаунт вендора.

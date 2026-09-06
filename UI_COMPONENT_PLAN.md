@@ -1,3 +1,8 @@
-# Square for Restaurants Connector - UI_COMPONENT_PLAN.md
+# Square for Restaurants Connector — UI Component Plan
 
-Standard documentation for Square for Restaurants Connector in Imperal Cloud.
+**Compliance:** UI_INTERFACE_STANDARD.md
+
+## Интерфейс
+- **Левый сайдбар:** Форма подключения на всю ширину контейнера, все инпуты с лейблами и контекстными плейсхолдерами.
+- **Центральная зона:** Карточки статуса подключения, таблица сущностей (заказы (/v2/orders)), журнал операций.
+- **Модальные окна:** Предупреждения и подтверждения для любых деструктивных или модифицирующих действий.
