@@ -53,7 +53,7 @@ async def connect_square_for_restaurants_connector(params: ConnectParams, ctx) -
     for c in conns: c["is_active"] = False
     conns.append(rec)
     await _save_conns(ctx, conns)
-    return ActionResult.ok(rec, summary=f"Connected Square for Restaurants ({rec['label']}).")
+    return ActionResult.success(rec, summary=f"Connected Square for Restaurants ({rec['label']}).")
 
 @chat.function("list_connections", "List configured Square for Restaurants connections.", action_type="read", chain_callable=True, event="square-for-restaurants-connector.list_connections", effects=["read:connections"], data_model=ConnectionList)
 async def list_connections(params: NoParams, ctx) -> ActionResult:
@@ -65,7 +65,7 @@ async def list_connections(params: NoParams, ctx) -> ActionResult:
         "base_url": c.get("base_url", "https://connect.squareup.com/v2"),
         "is_active": c.get("is_active", False)
     } for c in conns]
-    return ActionResult.ok({"connections": items, "total": len(items)}, summary=f"Found {len(items)} connection(s).")
+    return ActionResult.success({"connections": items, "total": len(items)}, summary=f"Found {len(items)} connection(s).")
 
 @chat.function("disconnect_square_for_restaurants_connector", "Disconnect Square for Restaurants account and delete stored credentials.", action_type="destructive", chain_callable=True, event="square-for-restaurants-connector.disconnect_square_for_restaurants_connector", effects=["delete:connection"], data_model=DeleteResult)
 async def disconnect_square_for_restaurants_connector(params: ConnectionIdParams, ctx) -> ActionResult:
@@ -77,4 +77,4 @@ async def disconnect_square_for_restaurants_connector(params: ConnectionIdParams
     else:
         conns.clear()
     await _save_conns(ctx, conns)
-    return ActionResult.ok({"success": True, "message": "Disconnected successfully."}, summary="Disconnected Square for Restaurants connection.")
+    return ActionResult.success({"success": True, "message": "Disconnected successfully."}, summary="Disconnected Square for Restaurants connection.")

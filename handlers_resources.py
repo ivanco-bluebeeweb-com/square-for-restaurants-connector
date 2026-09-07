@@ -19,7 +19,7 @@ async def list_orders(params: ListOrderParams, ctx) -> ActionResult:
             rid = str(r.get("id") or r.get("key") or r.get("uuid") or "unknown")
             rname = r.get("name") or r.get("title") or r.get("label") or rid
             items.append({"id": rid, "name": rname, "status": r.get("status"), "created_at": r.get("createdAt") or r.get("created_at"), "raw": r})
-        return ActionResult.ok({"orders": items, "total": len(items)}, summary=f"Found {len(items)} orders.")
+        return ActionResult.success({"orders": items, "total": len(items)}, summary=f"Found {len(items)} orders.")
     except Exception as e:
         return ActionResult.error(f"Error listing orders: {e}")
 
@@ -30,7 +30,7 @@ async def get_order(params: GetOrderParams, ctx) -> ActionResult:
         r = await client.get_order(params.order_id)
         rid = str(r.get("id") or params.order_id)
         rname = r.get("name") or r.get("title") or rid
-        return ActionResult.ok({"id": rid, "name": rname, "status": r.get("status"), "created_at": r.get("createdAt") or r.get("created_at"), "raw": r}, summary=f"Retrieved Order {rid}.")
+        return ActionResult.success({"id": rid, "name": rname, "status": r.get("status"), "created_at": r.get("createdAt") or r.get("created_at"), "raw": r}, summary=f"Retrieved Order {rid}.")
     except Exception as e:
         return ActionResult.error(f"Error retrieving Order: {e}")
 
@@ -39,7 +39,7 @@ async def audit_order_health(params: ConnectionIdParams, ctx) -> ActionResult:
     client = await resolve_client(ctx, params.connection_id)
     try:
         items = await client.list_orders(limit=50)
-        return ActionResult.ok({
+        return ActionResult.success({
             "healthy": True,
             "total_orders": len(items),
             "details": {"sample_count": len(items)},
