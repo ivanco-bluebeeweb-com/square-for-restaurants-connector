@@ -10,7 +10,7 @@ from schemas import (
 from handlers_connection import resolve_client
 
 @chat.function("list_orders", "List orders in Square for Restaurants.", action_type="read", chain_callable=True, event="square-for-restaurants-connector.list_orders", effects=["read:orders"], data_model=OrderList)
-async def list_orders(params: ListOrderParams, ctx) -> ActionResult:
+async def list_orders(ctx, params: ListOrderParams) -> ActionResult:
     client = await resolve_client(ctx, params.connection_id)
     try:
         raw_items = await client.list_orders(limit=params.limit)
@@ -24,7 +24,7 @@ async def list_orders(params: ListOrderParams, ctx) -> ActionResult:
         return ActionResult.error(f"Error listing orders: {e}")
 
 @chat.function("get_order", "Get details of one Order in Square for Restaurants.", action_type="read", chain_callable=True, event="square-for-restaurants-connector.get_order", effects=["read:order"], data_model=OrderRecord)
-async def get_order(params: GetOrderParams, ctx) -> ActionResult:
+async def get_order(ctx, params: GetOrderParams) -> ActionResult:
     client = await resolve_client(ctx, params.connection_id)
     try:
         r = await client.get_order(params.order_id)
@@ -35,7 +35,7 @@ async def get_order(params: GetOrderParams, ctx) -> ActionResult:
         return ActionResult.error(f"Error retrieving Order: {e}")
 
 @chat.function("audit_order_health", "Audit health of Square for Restaurants orders and connectivity.", action_type="read", chain_callable=True, event="square-for-restaurants-connector.audit_order_health", effects=["read:audit"], data_model=AuditHealthReport)
-async def audit_order_health(params: ConnectionIdParams, ctx) -> ActionResult:
+async def audit_order_health(ctx, params: ConnectionIdParams) -> ActionResult:
     client = await resolve_client(ctx, params.connection_id)
     try:
         items = await client.list_orders(limit=50)
